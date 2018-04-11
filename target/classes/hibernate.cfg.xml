@@ -23,5 +23,6 @@
 		<mapping class="com.me.alpha.pojo.User" />
 		<mapping class="com.me.alpha.pojo.Vaccine" />
 		<mapping class="com.me.alpha.pojo.WorkRequest" />
+		<mapping class="com.me.alpha.pojo.BadVaccine" />
 	</session-factory>
 </hibernate-configuration>

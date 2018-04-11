@@ -22,6 +22,5 @@ public class BadVaccine {
 	
 	@ManyToOne
 	@JoinColumn(name="organizationId")
-	Organization organization;
-	
+	Organization organization;	
 }

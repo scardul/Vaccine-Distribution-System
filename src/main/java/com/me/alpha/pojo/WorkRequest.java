@@ -26,11 +26,11 @@ public class WorkRequest {
 	Organization senderOrganization;
 	
 	@ManyToOne
-	@JoinColumn(name="enterpriseId")
+	@JoinColumn(name="enterpriseId",insertable=false,updatable=false)
 	Enterprise senderEnterprise;
 	
 	@ManyToOne
-	@JoinColumn(name="enterpriseId")
+	@JoinColumn(name="enterpriseId",insertable=false,updatable=false)
 	Enterprise receiverEnterprise;
 	
 	String status;
