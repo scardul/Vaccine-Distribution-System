@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">dell1234</property>
+		<property name="hibernate.connection.url">jdbc:mysql://alphadb.c4ywmqh9tjgn.us-east-2.rds.amazonaws.com:3306/alpha</property>
+		<property name="hibernate.connection.username">teamalpha</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<property name="hibernate.show_sql">true</property>
+
+		<mapping class="com.me.alpha.pojo.Disease" />
+		<mapping class="com.me.alpha.pojo.Enterprise" />
+		<mapping class="com.me.alpha.pojo.Inventory" />
+		<mapping class="com.me.alpha.pojo.Manufacturer" />
+		<mapping class="com.me.alpha.pojo.Network" />
+		<mapping class="com.me.alpha.pojo.Organization" />
+		<mapping class="com.me.alpha.pojo.Person" />
+		<mapping class="com.me.alpha.pojo.Prescription" />
+		<mapping class="com.me.alpha.pojo.User" />
+		<mapping class="com.me.alpha.pojo.Vaccine" />
+		<mapping class="com.me.alpha.pojo.WorkRequest" />
+	</session-factory>
+</hibernate-configuration>
