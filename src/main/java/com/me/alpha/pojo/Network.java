@@ -14,5 +14,25 @@ public class Network {
 	int networkId;
 	
 	
+	public int getNetworkId() {
+		return networkId;
+	}
+
+
+	public void setNetworkId(int networkId) {
+		this.networkId = networkId;
+	}
+
+
+	public String getNetworkName() {
+		return networkName;
+	}
+
+
+	public void setNetworkName(String networkName) {
+		this.networkName = networkName;
+	}
+
+
 	String networkName;
 }

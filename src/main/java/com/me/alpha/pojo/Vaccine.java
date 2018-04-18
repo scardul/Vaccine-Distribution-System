@@ -23,5 +23,37 @@ public class Vaccine {
 	@ManyToOne
 	@JoinColumn(name="manufacturerId",nullable=false)
 	Manufacturer manufacturer;
+
+	public int getVaccineId() {
+		return vaccineId;
+	}
+
+	public void setVaccineId(int vaccineId) {
+		this.vaccineId = vaccineId;
+	}
+
+	public String getVaccineName() {
+		return vaccineName;
+	}
+
+	public void setVaccineName(String vaccineName) {
+		this.vaccineName = vaccineName;
+	}
+
+	public Disease getPrevents() {
+		return prevents;
+	}
+
+	public void setPrevents(Disease prevents) {
+		this.prevents = prevents;
+	}
+
+	public Manufacturer getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(Manufacturer manufacturer) {
+		this.manufacturer = manufacturer;
+	}
 	
 }
