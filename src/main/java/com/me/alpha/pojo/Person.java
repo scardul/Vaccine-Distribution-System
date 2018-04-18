@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Person {
@@ -14,11 +16,22 @@ public class Person {
 	String fName;
 	String lName;
 	String phone;
+	
+	@ManyToOne
+	@JoinColumn(name="organizationId",nullable=false)
+	Organization organization;
+	
 	public int getpId() {
 		return pId;
 	}
 	public void setpId(int pId) {
 		this.pId = pId;
+	}
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 	public String getfName() {
 		return fName;

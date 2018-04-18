@@ -100,6 +100,6 @@ public class WorkRequest {
 	String status;
 	
 	@OneToOne
-	@JoinColumn(name="RefId")
+	@JoinColumn(name="RefId",nullable=true)
 	WorkRequest workRequest;
 }
