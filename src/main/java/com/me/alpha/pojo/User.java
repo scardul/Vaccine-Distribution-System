@@ -19,6 +19,8 @@ public class User {
 	String username;
 	String password;
 	
+	String email;
+	
 	public int getUserId() {
 		return userId;
 	}

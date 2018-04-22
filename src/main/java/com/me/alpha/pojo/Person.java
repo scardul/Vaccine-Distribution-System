@@ -18,8 +18,16 @@ public class Person {
 	String phone;
 	
 	@ManyToOne
-	@JoinColumn(name="organizationId",nullable=false)
+	@JoinColumn(name="organizationId",nullable=true)
 	Organization organization;
+	
+	@ManyToOne
+	@JoinColumn(name="enterpriseId",nullable=true)
+	Enterprise enterprise;
+	
+	@ManyToOne
+	@JoinColumn(name="networkId",nullable=true)
+	Network network;
 	
 	public int getpId() {
 		return pId;
