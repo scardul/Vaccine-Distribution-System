@@ -15,6 +15,18 @@ public class Person {
 	int pId;
 	String fName;
 	String lName;
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
+	public Network getNetwork() {
+		return network;
+	}
+	public void setNetwork(Network network) {
+		this.network = network;
+	}
 	String phone;
 	
 	@ManyToOne

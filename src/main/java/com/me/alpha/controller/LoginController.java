@@ -1,5 +1,7 @@
 package com.me.alpha.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -62,10 +64,10 @@ public class LoginController {
 			ret = "enterprise-analyst-view";
 			break;
 		case "Doctor":
-			ret = "doctor-view";
+			ret = "redirect:/prescribe.htm";
 			break;
 		case "IM":
-			ret = "clinic-inventory-view";
+			ret = "redirect:/clinicinventory.htm";
 			break;
 		case "DistIM":
 			ret = "distributer-inventory-view";
