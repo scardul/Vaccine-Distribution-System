@@ -90,11 +90,11 @@ public class WorkRequest {
 	Organization senderOrganization;
 	
 	@ManyToOne
-	@JoinColumn(name="senderEnterprise",insertable=false,updatable=false)
+	@JoinColumn(name="senderEnterprise")
 	Enterprise senderEnterprise;
 	
 	@ManyToOne
-	@JoinColumn(name="receiverEnterprise",insertable=false,updatable=false)
+	@JoinColumn(name="receiverEnterprise")
 	Enterprise receiverEnterprise;
 	
 	String status;
