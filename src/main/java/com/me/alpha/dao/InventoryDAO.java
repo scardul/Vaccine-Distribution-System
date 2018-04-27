@@ -3,6 +3,7 @@ package com.me.alpha.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 
 import com.me.alpha.pojo.Inventory;
@@ -21,20 +22,35 @@ public class InventoryDAO extends DAO {
 
 	public boolean approveRequest(Vaccine v, int q, Organization o) {
 
-		begin();
+		int a = 0;
 		List<Inventory> il = getInventory(o);
 		for (Inventory i : il) {
 			if (i.getVaccine().equals(v)) {
 				if (i.getQuantity() >= q) {
-					int a = i.getQuantity() - q;
-					i.setQuantity(a);
-					getSession().save(i);
-					commit();
-					return true;
+					a = i.getQuantity() - q;
+				}
+				else {
+					return false;
 				}
 			}
 		}
-		return false;
+		if(a==0) {
+			return false;
+		}
+		begin();
+		Query query = getSession().createQuery("update Inventory set quantity = :q" + " where vaccine = :v");
+		query.setInteger("q", a);
+		query.setParameter("v", v);
+		int r = query.executeUpdate();
+		commit();
+		close();
+		
+		if(r>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public boolean receiveRequest(Vaccine v, int q, Organization o) {

@@ -63,6 +63,11 @@ button {
 	cursor: pointer;
 }
 
+button:disabled {
+	backgroud-color: #FF0000;
+	color: #808080;
+}
+
 button:hover {
 	opacity: 0.8;
 }
@@ -110,9 +115,7 @@ button:hover {
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
-			<td><img
-				src="/ALPHA/src/main/webapp/resources/images/alpha-logo.png"
-				alt="logo"></td>
+			<td><img src="alpha-logo.png" alt="logo"></td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>
 				<h1>ALPHA</h1>
@@ -127,6 +130,7 @@ button:hover {
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>
 				<form action="logout.htm" method="post">
+
 					<input type="submit" value="Logout">
 				</form>
 			</td>
@@ -153,11 +157,14 @@ button:hover {
 						<tr>
 						<tr>
 							<td>Quantity:</td>
-							<td><input id="number" type="number" step="1" min="0"
-								name="quantity"></td>
+							<td><input id="number" type="text" name="quantity"
+								onkeyup="check()"></td>
 						</tr>
 					</table>
-					<button type="button" onclick="updatepage()">Submit</button>
+					<br> <br>
+					&nbsp
+					<button type="button" name="but" id="but" onclick="updatepage()"
+						disabled>Submit</button>
 				</form>
 			</div>
 		</div>
@@ -167,6 +174,25 @@ button:hover {
 	</div>
 
 	<script>
+		function check() {
+			var x = document.getElementById("number");
+
+			var s_len = x.value.length;
+			var s_charcode = 0;
+			for (var s_i = 0; s_i < s_len; s_i++) {
+				s_charcode = x.value.charCodeAt(s_i);
+				if (!((s_charcode >= 48 && s_charcode <= 57))) {
+					document.getElementById("but").disabled = true;
+				} else {
+					document.getElementById("but").disabled = false;
+
+				}
+			}
+		}
+
+		function goBack() {
+			window.history.back();
+		}
 		function updatepage() {
 			try {
 				var httpRequest = new XMLHttpRequest();
@@ -176,13 +202,13 @@ button:hover {
 			httpRequest.onreadystatechange = function() {
 				if (httpRequest.readyState == 4) {
 					var xxx = httpRequest.responseText;
-					var json = JSON.parse(xxx);
-					alert(json);
+					alert(xxx);
 				}
 			}
 			var vaccine = document.getElementById("vacname").value;
 			var quantity = document.getElementById("number").value;
-			httpRequest.open("POST", "./prescribe.htm?vaccine=" +vaccine+"&quantity="+quantity, true);
+			httpRequest.open("POST", "./prescribe.htm?vaccine=" + vaccine
+					+ "&quantity=" + quantity, true);
 			httpRequest.send();
 		}
 

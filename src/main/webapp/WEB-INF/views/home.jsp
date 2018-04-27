@@ -148,12 +148,11 @@ button:hover {
 		<div style="overflow: auto;">
 			<div style="float: right;">
 				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+				<input type="submit" value="Submit">
 			</div>
 		</div>
 		<!-- Circles which indicates the steps of the form: -->
 		<div style="text-align: center; margin-top: 40px;">
-			<span class="step"></span>
 		</div>
 	</form>
 

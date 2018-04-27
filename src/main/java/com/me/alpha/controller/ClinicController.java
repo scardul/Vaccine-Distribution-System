@@ -235,11 +235,15 @@ public class ClinicController {
 		InternalRequestDAO ir = df.createInternalReqDAO();
 		ir.setSeen(li);
 		WorkRequestDAO wd = df.createWorkRequestDAO();
+		InventoryDAO id = df.createInventoryDAO();
+		List<Inventory> liv = id.getInventory(o);
+		List<TemporaryRequest> ltr = ir.getRequests(o);
+		
+		req.getSession().setAttribute("data", ltr);
+		req.setAttribute("li", liv);
 		boolean x = wd.createCDCRequest(quantity, o, e, v);
-		if(x) {
-			return "success";
-		}
-		return "fail";
+		
+		return "clinic-inventory-view";
 	}
 
 }

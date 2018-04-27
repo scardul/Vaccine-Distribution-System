@@ -175,6 +175,8 @@ public class DistributerController {
 		DaoFactory df = new DaoFactory();
 		WorkRequestDAO wd = df.createWorkRequestDAO();
 		WorkRequest w = wd.getRequest(workRequestId);
+		int wid = w.getWorkRequest().getWorkRequestId();
+		wd.updateWorkRequest(wid, "HOLD");
 		String manufacturerName = w.getVaccine().getManufacturer().getManufacturerName();
 		String display = wd.forward(w,manufacturerName,o);
 		
@@ -200,6 +202,5 @@ public class DistributerController {
 		
 		return "distributer-inventory-view";
 	}
-		
 
 }

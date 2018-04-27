@@ -73,6 +73,7 @@ public class WorkRequestDAO extends DAO {
 		Criteria c = getSession().createCriteria(WorkRequest.class);
 		c.add(Restrictions.isNotNull("workRequest"));
 		c.add(Restrictions.eq("receiverEnterprise", e));
+		c.add(Restrictions.ne("status", "HOLD"));
 		List<WorkRequest> lwr = c.list();
 
 		List<WorkRequest> l = helper();
@@ -121,10 +122,14 @@ public class WorkRequestDAO extends DAO {
 		InventoryDAO id = df.createInventoryDAO();
 		Vaccine v = wr.getVaccine();
 		int q = wr.getQuantity();
+		if(z.equals("SENT")) {
+			return "Request needs to be assigned.";
+		}
 		if(z.equals("COMPLETE")) {
 			boolean x = id.approveRequest(v, q, o);
+			Organization org = wr.getWorkRequest().getSenderOrganization();
 			if(x) {
-				id.receiveRequest(v,q,o);
+				id.receiveRequest(v,q,org);
 				updateWorkRequest(workRequestId,"APPROVED");
 				return "Request approved.";
 			}
@@ -139,9 +144,9 @@ public class WorkRequestDAO extends DAO {
 		if (z.equals("ASSIGNED")) {
 			
 			boolean x = id.approveRequest(v, q, o);
-
+			Organization org = wr.getWorkRequest().getSenderOrganization();
 			if (x) {
-				id.receiveRequest(v, q, o);
+				id.receiveRequest(v, q, org);
 				updateWorkRequest(workRequestId,"APPROVED");
 				return "Request approved.";
 			} else {
@@ -172,6 +177,9 @@ public class WorkRequestDAO extends DAO {
 
 		begin();
 		String z = w.getStatus();
+		if(z.equals("SENT")) {
+			return "Request needs to be assigned.";
+		}
 		if (z.equals("APPROVED")) {
 			return "This request is complete and dispatched.";
 		}

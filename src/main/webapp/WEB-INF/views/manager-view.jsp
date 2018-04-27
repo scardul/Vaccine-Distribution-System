@@ -139,6 +139,7 @@ button:hover {
 	</table>
 
 	<form id="regForm" method="post" action="manager-approve.htm">
+		<h1>Welcome, ${sessionScope.user.person.fName}</h1>
 		<h1>Select a vaccine request to approve:</h1>
 		<!-- One "tab" for each step in the form: -->
 		<div class="tab">
@@ -163,7 +164,9 @@ button:hover {
 								value="${wr.workRequestId}"></td>
 						</tr>
 					</c:forEach>
-				</table><br><br>
+				</table>
+				<br>
+				<br>
 
 
 			</div>
@@ -176,10 +179,6 @@ button:hover {
 				<button type="button" onclick="approve()">Approve</button>
 				&nbsp &nbsp &nbsp &nbsp
 			</div>
-		</div>
-		<!-- Circles which indicates the steps of the form: -->
-		<div style="text-align: center; margin-top: 40px;">
-			<span class="step"></span>
 		</div>
 	</form>
 
@@ -204,7 +203,7 @@ button:hover {
 					alert(xxx);
 				}
 			}
-			var select = document.getElementById("select").value;
+			var select = document.querySelector('input[name="select"]:checked').value;
 			httpRequest.open("POST", "./manager-approve.htm?select=" + select,
 					true);
 			httpRequest.send();

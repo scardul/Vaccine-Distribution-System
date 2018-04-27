@@ -139,7 +139,7 @@ button:hover {
 		<div class="tab">
 			<div align="center">
 			<c:if test="${not empty requestScope.deleted}">
-				<h4>User Deleted.</h4>
+				<h4>1 User Deleted.</h4>
 			</c:if>
 				<strong>Available users:</strong><br>
 				<table border="1">

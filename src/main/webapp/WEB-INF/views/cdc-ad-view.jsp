@@ -138,13 +138,14 @@ button:hover {
 		<!-- One "tab" for each step in the form: -->
 		<div class="tab">
 			<div align="center">
-				<table>
+				<table border="1">
 					<thead>
 						<th>RequestID</th>
 						<th>Vaccine</th>
 						<th>Quantity</th>
 						<th>Sender</th>
 						<th>Receiver</th>
+						<th> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp </th>
 					</thead>
 					<c:forEach items="${sessionScope.data}" var="request">
 						<tr>
@@ -157,22 +158,19 @@ button:hover {
 								value="${request.workRequestId}"></td>
 						</tr>
 					</c:forEach>
-				</table>
+				</table><br><br><br>
 				
 			</div>
 		</div>
 
 		<div style="overflow: auto;">
-			<div style="float: right;">
+			<div style="float: right;" >
 				<button type="submit" formaction="cdc-decline.htm">Decline</button>
 				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+				<button type="submit" formaction="cdc-approve.htm">Accept</button>
 			</div>
 		</div>
-		<!-- Circles which indicates the steps of the form: -->
-		<div style="text-align: center; margin-top: 40px;">
-			<span class="step"></span>
-		</div>
+		
 	</form>
 
 	<script>

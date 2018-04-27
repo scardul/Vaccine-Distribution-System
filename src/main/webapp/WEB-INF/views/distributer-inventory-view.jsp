@@ -62,6 +62,12 @@ button {
 	cursor: pointer;
 }
 
+button:disabled {
+	backgroud-color: #FF0000;
+	color: #808080;
+}
+
+
 button:hover {
 	opacity: 0.8;
 }
@@ -153,7 +159,7 @@ button:hover {
 							<td><c:if test="${empty wr.status}">UNASSIGNED</c:if> <c:if
 									test="${not empty wr.status}">${wr.status}</c:if></td>
 							<td>${wr.receiverEnterprise.enterpriseName}</td>
-							<td><input type="radio" id="select" name="select"
+							<td><input onmousedown="ccc()" type="radio" id="select" name="select"
 								value="${wr.workRequestId}"></td>
 						</tr>
 					</c:forEach>
@@ -183,18 +189,23 @@ button:hover {
 			<div style="float: center;">
 				<button type="button" onclick="x()">Refresh</button>
 				&nbsp &nbsp &nbsp
-				<button type="button" onclick="assign()">Assign</button>
+				<button type="button" id="a" onclick="assign()" disabled>Assign</button>
 				&nbsp &nbsp &nbsp
-				<button type="button" onclick="approve()">Approve</button>
+				<button type="button" id="b" onclick="approve()" disabled>Approve</button>
 				&nbsp &nbsp &nbsp
-				<button type="button" onclick="forward()">Forward</button>
+				<button type="button" id="c" onclick="forward()" disabled>Forward</button>
 			</div>
 		</div>
 	</form>
 
 	<script>
+		function ccc() {
+			document.getElementById("a").disabled = false;
+			document.getElementById("b").disabled = false;
+			document.getElementById("c").disabled = false;
+		}
 		function x() {
-			window.location.reload();
+			window.location.href = "./distributer-inventory-view.htm";
 		}
 
 		function http() {
@@ -214,7 +225,7 @@ button:hover {
 					alert(xxx);
 				}
 			}
-			var select = document.getElementById("select").value;
+			var select = document.querySelector('input[name="select"]:checked').value;
 			httpRequest.open("POST", "./distributer-assign.htm?select="
 					+ select, true);
 			httpRequest.send();
@@ -228,7 +239,7 @@ button:hover {
 					alert(xxx);
 				}
 			}
-			var select = document.getElementById("select").value;
+			var select = document.querySelector('input[name="select"]:checked').value;
 			httpRequest.open("POST", "./distributer-approve.htm?select="
 					+ select, true);
 			httpRequest.send();
@@ -242,7 +253,7 @@ button:hover {
 					alert(xxx);
 				}
 			}
-			var select = document.getElementById("select").value;
+			var select = document.querySelector('input[name="select"]:checked').value;
 			httpRequest.open("POST", "./distributer-forward.htm?select="
 					+ select, true);
 			httpRequest.send();

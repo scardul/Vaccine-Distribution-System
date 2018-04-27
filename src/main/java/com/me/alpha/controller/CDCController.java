@@ -151,8 +151,11 @@ public class CDCController {
 		Vaccine v = w.getVaccine();
 		int q = w.getQuantity();
 		wd.sendOrder(e, v, q, w);
+		wd.updateWorkRequest(w.getWorkRequestId(),"SENT");
+		List<WorkRequest> lwr = wd.getADRequests(e);
+		req.getSession().setAttribute("data", lwr);
 
-		return "order-sent";
+		return "cdc-ad-view";
 	}
 
 	@RequestMapping(value = "/cdc-decline.htm", method = RequestMethod.POST)

@@ -62,6 +62,11 @@ button {
 	cursor: pointer;
 }
 
+button:disabled {
+	backgroud-color: #FF0000;
+	color: #808080;
+}
+
 button:hover {
 	opacity: 0.8;
 }
@@ -131,11 +136,11 @@ button:hover {
 	</table>
 
 	<form id="regForm" method="post" action="clinicinventory.htm">
-		<h1>Add new staff:</h1>
+		<h1>Inventory Manager WorkSpace:</h1>
 		<!-- One "tab" for each step in the form: -->
 		<div class="tab">
 			<div align="center">
-				<table>
+				<table border="1">
 					<thead>
 						<th>Vaccine</th>
 						<th>Quantity</th>
@@ -145,8 +150,8 @@ button:hover {
 						<tr>
 							<td>${request.vaccine.vaccineName}</td>
 							<td>${request.quantity}</td>
-							<td><input type="radio" id="select" name="select"
-								value="${request.vaccine.vaccineName}"></td>
+							<td><input onchange="d()" type="radio" id="select"
+								name="select" value="${request.vaccine.vaccineName}"></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -172,12 +177,20 @@ button:hover {
 			<div style="float: right;">
 				<button type="button" onclick="x()">Refresh</button>
 				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-				<button type="button" onclick="updatepage()">Send Request</button>
+				<button type="submit" id="but" formaction="clinicinventory.htm"
+					disabled>Submit</button>
 			</div>
 		</div>
 	</form>
 
 	<script>
+		function d() {
+			document.getElementById("but").disabled = false;
+		}
+
+		function goBack() {
+			window.history.back();
+		}
 		function http() {
 			try {
 				var httpRequest = new XMLHttpRequest();
@@ -185,20 +198,6 @@ button:hover {
 			} catch (e) {
 			}
 			return httpRequest;
-		}
-
-		function updatepage() {
-			var httpRequest = http();
-			httpRequest.onreadystatechange = function() {
-				if (httpRequest.readyState == 4) {
-					var xxx = httpRequest.responseText;
-					alert(xxx);
-				}
-			}
-			var select = document.getElementById("select").value;
-			httpRequest.open("POST", "./clinicinventory.htm?select="
-					+ select, true);
-			httpRequest.send();
 		}
 
 		function x() {
