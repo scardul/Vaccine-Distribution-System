@@ -94,7 +94,7 @@ button:hover {
 <title>Clinic Admin Workspace</title>
 </head>
 <body style="background-color: powderblue;">
-	<table align="center">
+	<table >
 		<tr>
 			<td>&nbsp &nbsp &nbsp</td>
 		</tr>

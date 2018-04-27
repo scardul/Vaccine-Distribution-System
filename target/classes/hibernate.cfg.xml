@@ -25,6 +25,8 @@
 		<mapping class="com.me.alpha.pojo.WorkRequest" />
 		<mapping class="com.me.alpha.pojo.BadVaccine" />
 		<mapping class="com.me.alpha.pojo.InternalRequest" />
+		<mapping class="com.me.alpha.pojo.Alerts" />
+		<mapping class="com.me.alpha.pojo.Administered" />
 	
 	</session-factory>
 </hibernate-configuration>

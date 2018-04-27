@@ -95,6 +95,9 @@ button:hover {
 <title>Clinic Admin Workspace</title>
 </head>
 <body style="background-color: powderblue;">
+	<c:if test="${empty sessionScope.login}">
+		<c:redirect url="login.htm"></c:redirect>
+	</c:if>
 	<table align="center">
 		<tr>
 			<td>&nbsp &nbsp &nbsp</td>
@@ -151,7 +154,8 @@ button:hover {
 							<td>${user.username}</td>
 							<td>${user.person.fName}${user.person.lName}</td>
 							<td>${user.role}</td>
-							<td><input type="checkbox" value="${user.userId}" name="delete"></td>
+							<td><input type="checkbox" id="delete" value="${user.userId}"
+								name="delete"></td>
 						</tr>
 						<c:set var="count" value="${count+1}" scope="page" />
 					</c:forEach>
@@ -163,7 +167,7 @@ button:hover {
 		<div style="overflow: auto;">
 			<div style="float: right;">
 				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+				<button type="button" onclick="updatepage()">Remove</button>
 			</div>
 		</div>
 		<!-- Circles which indicates the steps of the form: -->
@@ -173,6 +177,25 @@ button:hover {
 	</form>
 
 	<script>
+		function updatepage() {
+			try {
+				var httpRequest = new XMLHttpRequest();
+
+			} catch (e) {
+			}
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState == 4) {
+					var xxx = httpRequest.responseText;
+					var json = JSON.parse(xxx);
+					alert(json);
+				}
+			}
+			var del = document.getElementById("delete").value;
+			httpRequest.open("POST", "./clinic-delete.htm?delete=" + del,
+					true);
+			httpRequest.send();
+		}
+
 		var currentTab = 0; // Current tab is set to be the first tab (0)
 		showTab(currentTab); // Display the current tab
 

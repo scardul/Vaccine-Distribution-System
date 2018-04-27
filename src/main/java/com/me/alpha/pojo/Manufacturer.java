@@ -30,4 +30,5 @@ public class Manufacturer {
 	
 	String manufacturerName;
 	
+	
 }

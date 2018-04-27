@@ -157,7 +157,7 @@ button:hover {
 								name="quantity"></td>
 						</tr>
 					</table>
-					<input type="submit" value="Submit">
+					<button type="button" onclick="updatepage()">Submit</button>
 				</form>
 			</div>
 		</div>
@@ -167,6 +167,25 @@ button:hover {
 	</div>
 
 	<script>
+		function updatepage() {
+			try {
+				var httpRequest = new XMLHttpRequest();
+
+			} catch (e) {
+			}
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState == 4) {
+					var xxx = httpRequest.responseText;
+					var json = JSON.parse(xxx);
+					alert(json);
+				}
+			}
+			var vaccine = document.getElementById("vacname").value;
+			var quantity = document.getElementById("number").value;
+			httpRequest.open("POST", "./prescribe.htm?vaccine=" +vaccine+"&quantity="+quantity, true);
+			httpRequest.send();
+		}
+
 		var currentTab = 0; // Current tab is set to be the first tab (0)
 		showTab(currentTab); // Display the current tab
 

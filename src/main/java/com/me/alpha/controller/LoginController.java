@@ -1,7 +1,5 @@
 package com.me.alpha.controller;
 
-import java.lang.ProcessBuilder.Redirect;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,7 +7,6 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,12 +32,10 @@ public class LoginController {
 		int eId, nId, oId = 0;
 
 		if (u != null) {
-			if (u.getNetwork() != null) {
-				nId = u.getNetwork().getNetworkId();
-			}
 			role = u.getRole();
 			HttpSession s = req.getSession();
 			s.setAttribute("user", u);
+			s.setAttribute("login", "xxx");
 		}
 
 		switch (role) {
@@ -55,10 +50,10 @@ public class LoginController {
 			ret = "cdc-admin-view";
 			break;
 		case "AD":
-			ret = "cdc-ad-view";
+			ret = "redirect:/cdc-ad-view.htm";
 			break;
 		case "Manager":
-			ret = "manager-view";
+			ret = "redirect:/manager-view.htm";
 			break;
 		case "EA":
 			ret = "enterprise-analyst-view";
@@ -70,7 +65,7 @@ public class LoginController {
 			ret = "redirect:/clinicinventory.htm";
 			break;
 		case "DistIM":
-			ret = "distributer-inventory-view";
+			ret = "redirect:/distributer-inventory-view.htm";
 			break;
 		case "ClinicAdmin":
 			ret = "clinic-admin-view";
@@ -86,7 +81,9 @@ public class LoginController {
 	
 	@RequestMapping(value = "/logout.htm", method = RequestMethod.POST)
 	public String logout(HttpServletRequest req) {
-		req.getSession().setAttribute("user", null);		
+		req.getSession().setAttribute("user", null);
+		req.getSession().setAttribute("login", null);
+		req.getSession().setAttribute("data", null);
 		return "home";
 	}
 	

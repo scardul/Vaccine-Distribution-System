@@ -30,5 +30,17 @@ public class DaoFactory {
 		// TODO Auto-generated method stub
 		return new WorkRequestDAO();
 	}
+	
+	public InventoryDAO createInventoryDAO() {
+		return new InventoryDAO();
+	}
+	
+	public AlertsDAO createAlertsDAO() {
+		return new AlertsDAO();
+	}
+	
+	public ADao createADAO() {
+		return new ADao();
+	}
 
 }

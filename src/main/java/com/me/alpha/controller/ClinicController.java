@@ -13,14 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.me.alpha.dao.ADao;
 import com.me.alpha.dao.DaoFactory;
 import com.me.alpha.dao.InternalRequestDAO;
+import com.me.alpha.dao.InventoryDAO;
 import com.me.alpha.dao.PersonDAO;
 import com.me.alpha.dao.UserDAO;
 import com.me.alpha.dao.VaccineDAO;
 import com.me.alpha.dao.WorkRequestDAO;
 import com.me.alpha.pojo.Enterprise;
-import com.me.alpha.pojo.InternalRequest;
+import com.me.alpha.pojo.Inventory;
 import com.me.alpha.pojo.Network;
 import com.me.alpha.pojo.Organization;
 import com.me.alpha.pojo.Person;
@@ -57,7 +59,8 @@ public class ClinicController {
 
 	}
 
-	@RequestMapping(value = "/clinic-register.htm", method = RequestMethod.POST)
+	@RequestMapping(value = "/clinic-register.htm", method = RequestMethod.POST,produces="application/json")
+	@ResponseBody
 	public String registeruser(HttpServletRequest req) {
 
 		String fname = req.getParameter("fname");
@@ -66,9 +69,6 @@ public class ClinicController {
 		String email = req.getParameter("email");
 		String username = req.getParameter("username");
 		String role = req.getParameter("role");
-		if (role.equals("Inventory Manager")) {
-			role = "IM";
-		}
 
 		User u = (User) req.getSession().getAttribute("user");
 
@@ -89,7 +89,7 @@ public class ClinicController {
 					+ " \n Password: root \n \n Enjoy.";
 			sendEmail(email, message);
 		}
-		return "clinic-admin-view";
+		return "User registered. Password has been mailed.";
 	}
 
 	@RequestMapping(value = "/clinic-delete.htm", method = RequestMethod.GET)
@@ -110,7 +110,8 @@ public class ClinicController {
 		return "clinic-admin-remove";
 	}
 
-	@RequestMapping(value = "/clinic-delete.htm", method = RequestMethod.POST)
+	@RequestMapping(value = "/clinic-delete.htm", method = RequestMethod.POST,produces="application/json")
+	@ResponseBody
 	public String deleteUsers(HttpServletRequest req) {
 
 		User u = (User) req.getSession().getAttribute("user");
@@ -128,10 +129,10 @@ public class ClinicController {
 				}
 			}
 			req.setAttribute("deleted", count);
-			return "clinic-admin-success";
+			return count+" users deleted.";
 		}
 
-		return "clinic-admin-fail";
+		return "Something went wrong. Delete failed.";
 	}
 
 	@RequestMapping(value = "/prescribe.htm", method = RequestMethod.GET)
@@ -147,7 +148,8 @@ public class ClinicController {
 		return "doctor-view";
 	}
 
-	@RequestMapping(value = "/prescribe.htm", method = RequestMethod.POST)
+	@RequestMapping(value = "/prescribe.htm", method = RequestMethod.POST,produces="application/json")
+	@ResponseBody
 	public String doctorPrescribe(HttpServletRequest req) {
 
 		User u = (User) req.getSession().getAttribute("user");
@@ -171,12 +173,26 @@ public class ClinicController {
 				send = v;
 			}
 		}
-
+		InventoryDAO id = df.createInventoryDAO();
+		List<Inventory> li = id.getInventory(o);
+		for(Inventory i : li) {
+			if(i.getVaccine().equals(send)) {
+				int iq = i.getQuantity();
+				if(iq > quantity) {
+					iq = iq - quantity;
+					i.setQuantity(iq);
+					id.saveInventory(i);
+					ADao ad = df.createADAO();
+					ad.administerVaccine(o, quantity, send);
+					return "Vaccine administered.";
+				}
+			}
+		}
 		InternalRequestDAO rd = df.createInternalReqDAO();
 		
 		rd.addInternalRequest(u,o,send,quantity);
 		
-		return "doctor-view-success";
+		return "There wasn't enough vaccine. Request sent to Inventory Manager.";
 	}
 	
 	
@@ -188,6 +204,9 @@ public class ClinicController {
 		InternalRequestDAO ir = df.createInternalReqDAO();
 		Organization o = u.getOrganization();
 		List<TemporaryRequest> rl = ir.getRequests(o);
+		InventoryDAO id = df.createInventoryDAO();
+		List<Inventory> li = id.getInventory(o);
+		req.setAttribute("li", li);
 	    
 		
 		req.getSession().setAttribute("data", rl);
@@ -205,12 +224,16 @@ public class ClinicController {
 		String vaccineName = req.getParameter("select");
 		Vaccine v = null;
 		int quantity = 0;
+		List<Integer> li = null;
 		for(TemporaryRequest t : rl) {
 			if(t.getVaccine().getVaccineName().equals(vaccineName)) {
 				v = t.getVaccine();
 				quantity = t.getQuantity();
+				li = t.getLi();
 			}
 		}
+		InternalRequestDAO ir = df.createInternalReqDAO();
+		ir.setSeen(li);
 		WorkRequestDAO wd = df.createWorkRequestDAO();
 		boolean x = wd.createCDCRequest(quantity, o, e, v);
 		if(x) {

@@ -43,6 +43,17 @@ public class UserDAO extends DAO {
 		List<User> result = crit.list();
 		return result;
 	}
+	
+	public List<User> getEnterpriseUsers(Enterprise e, Network n) {
+
+		Session session = getSession();
+		Criteria crit = session.createCriteria(User.class);
+		crit.add(Restrictions.eq("enterprise", e));
+		crit.add(Restrictions.eq("network", n));
+		crit.add(Restrictions.isNull("organization"));
+		List<User> result = crit.list();
+		return result;
+	}
 
 	public User createUser(String username, String role, Enterprise e, Network n, Organization o, Person p) {
 

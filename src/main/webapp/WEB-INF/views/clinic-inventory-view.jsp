@@ -109,9 +109,7 @@ button:hover {
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
-			<td><img
-				src="alpha-logo.png"
-				alt="logo"></td>
+			<td><img src="alpha-logo.png" alt="logo"></td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>
 				<h1>ALPHA</h1>
@@ -147,8 +145,23 @@ button:hover {
 						<tr>
 							<td>${request.vaccine.vaccineName}</td>
 							<td>${request.quantity}</td>
-							<td><input type="radio" name="select"
+							<td><input type="radio" id="select" name="select"
 								value="${request.vaccine.vaccineName}"></td>
+						</tr>
+					</c:forEach>
+				</table>
+				<br> <input type="hidden" id="org"
+					value="${sessionScope.user.organization.organizationId}">
+				<h3>Available items:</h3>
+				<table border="1">
+					<thead>
+						<td>Vaccine</td>
+						<td>Quantity</td>
+					</thead>
+					<c:forEach var="i" items="${requestScope.li}">
+						<tr>
+							<td>${i.vaccine.vaccineName}</td>
+							<td>${i.quantity}</td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -157,17 +170,59 @@ button:hover {
 
 		<div style="overflow: auto;">
 			<div style="float: right;">
+				<button type="button" onclick="x()">Refresh</button>
 				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-				<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+				<button type="button" onclick="updatepage()">Send Request</button>
 			</div>
-		</div>
-		<!-- Circles which indicates the steps of the form: -->
-		<div style="text-align: center; margin-top: 40px;">
-			<span class="step"></span>
 		</div>
 	</form>
 
 	<script>
+		function http() {
+			try {
+				var httpRequest = new XMLHttpRequest();
+
+			} catch (e) {
+			}
+			return httpRequest;
+		}
+
+		function updatepage() {
+			var httpRequest = http();
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState == 4) {
+					var xxx = httpRequest.responseText;
+					alert(xxx);
+				}
+			}
+			var select = document.getElementById("select").value;
+			httpRequest.open("POST", "./clinicinventory.htm?select="
+					+ select, true);
+			httpRequest.send();
+		}
+
+		function x() {
+			window.location.reload();
+		}
+
+		window.onload = function() {
+			try {
+				var httpRequest = new XMLHttpRequest();
+
+			} catch (e) {
+			}
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState == 4) {
+					var xxx = httpRequest.responseText;
+					alert(xxx);
+				}
+			}
+			var orgg = document.getElementById("org").value;
+			httpRequest.open("POST", "./alert-get.htm?organization=" + orgg,
+					true);
+			httpRequest.send();
+		}
+
 		var currentTab = 0; // Current tab is set to be the first tab (0)
 		showTab(currentTab); // Display the current tab
 

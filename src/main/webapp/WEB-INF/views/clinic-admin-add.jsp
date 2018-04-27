@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -94,6 +95,9 @@ button:hover {
 <title>Clinic Admin Workspace</title>
 </head>
 <body style="background-color: powderblue;">
+	<c:if test="${empty sessionScope.login}">
+		<c:redirect url="login.htm"></c:redirect>
+	</c:if>
 	<table align="center">
 		<tr>
 			<td>&nbsp &nbsp &nbsp</td>
@@ -108,9 +112,7 @@ button:hover {
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
-			<td><img
-				src="alpha-logo.png"
-				alt="logo"></td>
+			<td><img src="alpha-logo.png" alt="logo"></td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>
 				<h1>ALPHA</h1>
@@ -140,27 +142,27 @@ button:hover {
 				<table>
 					<tr>
 						<td>First Name:</td>
-						<td><input type="text" name="fname" /></td>
+						<td><input type="text" id="fname" /></td>
 					</tr>
 					<tr>
 						<td>Last Name:</td>
-						<td><input type="text" name="lname" /></td>
+						<td><input type="text" id="lname" /></td>
 					</tr>
 					<tr>
 						<td>Phone:</td>
-						<td><input type="text" name="phone" /></td>
+						<td><input type="text" id="phone" /></td>
 					</tr>
 					<tr>
 						<td>Email:</td>
-						<td><input type="text" name="email" /></td>
+						<td><input type="text" id="email" /></td>
 					</tr>
 					<tr>
 						<td>Set Username:</td>
-						<td><input type="text" name="username" /></td>
+						<td><input type="text" id="username" /></td>
 					</tr>
 					<tr>
 						<td>Select Role:</td>
-						<td><select name="role">
+						<td><select id="role">
 								<option value="Doctor">Doctor</option>
 								<option value="IM">Inventory Manager</option>
 						</select></td>
@@ -182,6 +184,28 @@ button:hover {
 	</form>
 
 	<script>
+		function updatepage() {
+			try {
+				var httpRequest = new XMLHttpRequest();
+
+			} catch (e) {
+			}
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState == 4) {
+					var xxx = httpRequest.responseText;
+					var json = JSON.parse(xxx);
+					alert(json);
+				}
+			}
+			var fname = document.getElementById("fname").value;
+			var lname = document.getElementById("lname").value;
+			var phone = document.getElementById("phone").value;
+			var email = document.getElementById("email").value;
+			var username = document.getElementById("username").value;
+			var role = document.getElementById("role").value;
+			httpRequest.open("POST", "./clinic-register.htm?fname="+fname+"&lname="+lname+"&phone="+phone+"&email="+email+"&username="+username+"&role="+role, true);
+			httpRequest.send();
+		}
 		var currentTab = 0; // Current tab is set to be the first tab (0)
 		showTab(currentTab); // Display the current tab
 

@@ -111,7 +111,7 @@ button:hover {
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td><img
-				src="/ALPHA/src/main/webapp/resources/images/alpha-logo.png"
+				src="alpha-logo.png"
 				alt="logo"></td>
 			<td>&nbsp &nbsp &nbsp</td>
 			<td>
@@ -138,8 +138,8 @@ button:hover {
 		<!-- One "tab" for each step in the form: -->
 		<div class="tab">
 			<div align="center">
-				<input type="text" name="username"><br> <input
-					type="password" name="password"><br>
+				<input type="text" name="username"><br> <br><input
+					type="password" name="password"><br><br>
 
 
 			</div>
