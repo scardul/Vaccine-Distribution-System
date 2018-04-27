@@ -20,7 +20,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login.htm", method = RequestMethod.POST)
 	public String home(HttpServletRequest req) {
-		String ret = null;
+		String ret = "home";
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 
@@ -36,49 +36,48 @@ public class LoginController {
 			HttpSession s = req.getSession();
 			s.setAttribute("user", u);
 			s.setAttribute("login", "xxx");
-		}
 
-		switch (role) {
+			switch (role) {
 
-		case "HA":
-			ret = "head-analyst-view";
-			break;
-		case "NA":
-			ret = "network-analyst-view";
-			break;
-		case "CDCAdmin":
-			ret = "cdc-admin-view";
-			break;
-		case "AD":
-			ret = "redirect:/cdc-ad-view.htm";
-			break;
-		case "Manager":
-			ret = "redirect:/manager-view.htm";
-			break;
-		case "EA":
-			ret = "enterprise-analyst-view";
-			break;
-		case "Doctor":
-			ret = "redirect:/prescribe.htm";
-			break;
-		case "IM":
-			ret = "redirect:/clinicinventory.htm";
-			break;
-		case "DistIM":
-			ret = "redirect:/distributer-inventory-view.htm";
-			break;
-		case "ClinicAdmin":
-			ret = "clinic-admin-view";
-			break;
-		case "DistAdmin":
-			ret = "distributer-admin-view";
-			break;
+			case "HA":
+				ret = "head-analyst-view";
+				break;
+			case "NA":
+				ret = "network-analyst-view";
+				break;
+			case "CDCAdmin":
+				ret = "cdc-admin-view";
+				break;
+			case "AD":
+				ret = "redirect:/cdc-ad-view.htm";
+				break;
+			case "Manager":
+				ret = "redirect:/manager-view.htm";
+				break;
+			case "EA":
+				ret = "enterprise-analyst-view";
+				break;
+			case "Doctor":
+				ret = "redirect:/prescribe.htm";
+				break;
+			case "IM":
+				ret = "redirect:/clinicinventory.htm";
+				break;
+			case "DistIM":
+				ret = "redirect:/distributer-inventory-view.htm";
+				break;
+			case "ClinicAdmin":
+				ret = "clinic-admin-view";
+				break;
+			case "DistAdmin":
+				ret = "distributer-admin-view";
+				break;
+			}
 		}
 
 		return ret;
 	}
-	
-	
+
 	@RequestMapping(value = "/logout.htm", method = RequestMethod.POST)
 	public String logout(HttpServletRequest req) {
 		req.getSession().setAttribute("user", null);
@@ -86,8 +85,7 @@ public class LoginController {
 		req.getSession().setAttribute("data", null);
 		return "home";
 	}
-	
-	
+
 	public void sendEmail(String useremail, String message) {
 		try {
 			Email email = new SimpleEmail();
@@ -107,5 +105,5 @@ public class LoginController {
 		}
 
 	}
-	
+
 }

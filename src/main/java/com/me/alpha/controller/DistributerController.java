@@ -171,6 +171,7 @@ public class DistributerController {
 	public String forward(HttpServletRequest req) {
 		int workRequestId = Integer.parseInt(req.getParameter("select"));
 		User u = (User) req.getSession().getAttribute("user");
+		Network n = u.getNetwork();
 		Organization o = u.getOrganization();
 		DaoFactory df = new DaoFactory();
 		WorkRequestDAO wd = df.createWorkRequestDAO();
@@ -178,7 +179,7 @@ public class DistributerController {
 		int wid = w.getWorkRequest().getWorkRequestId();
 		wd.updateWorkRequest(wid, "HOLD");
 		String manufacturerName = w.getVaccine().getManufacturer().getManufacturerName();
-		String display = wd.forward(w,manufacturerName,o);
+		String display = wd.forward(w,manufacturerName,o,n);
 		
 		return display;
 		

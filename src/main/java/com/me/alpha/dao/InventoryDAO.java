@@ -52,7 +52,20 @@ public class InventoryDAO extends DAO {
 			return false;
 		}
 	}
-
+	
+	public int checkInvent(Vaccine v, Organization o) {
+		
+		int x=-1;
+		begin();
+		Criteria c = getSession().createCriteria(Inventory.class);
+		c.add(Restrictions.eq("vaccine", v));
+		c.add(Restrictions.eq("organization",o));
+		c.list();
+		
+		return x;
+		
+	}
+	
 	public boolean receiveRequest(Vaccine v, int q, Organization o) {
 
 		begin();

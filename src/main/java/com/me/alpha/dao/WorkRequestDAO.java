@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.me.alpha.pojo.Enterprise;
 import com.me.alpha.pojo.InternalRequest;
+import com.me.alpha.pojo.Network;
 import com.me.alpha.pojo.Organization;
 import com.me.alpha.pojo.Vaccine;
 import com.me.alpha.pojo.WorkRequest;
@@ -168,11 +169,12 @@ public class WorkRequestDAO extends DAO {
 		return lwr;
 	}
 
-	public String forward(WorkRequest w, String manufacturerName, Organization o) {
+	public String forward(WorkRequest w, String manufacturerName, Organization o,Network n) {
 		// TODO Auto-generated method stub
 
 		Criteria c = getSession().createCriteria(Enterprise.class);
 		c.add(Restrictions.eq("enterpriseName", manufacturerName));
+		c.add(Restrictions.eq("network",n));
 		Enterprise e = (Enterprise) c.uniqueResult();
 
 		begin();

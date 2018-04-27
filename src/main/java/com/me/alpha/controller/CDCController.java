@@ -160,11 +160,14 @@ public class CDCController {
 
 	@RequestMapping(value = "/cdc-decline.htm", method = RequestMethod.POST)
 	public String decline(HttpServletRequest req) {
+		User u = (User) req.getSession().getAttribute("user");
+		Enterprise e = u.getEnterprise();
 		int workRequestId = Integer.parseInt(req.getParameter("select"));
 		DaoFactory df = new DaoFactory();
 		WorkRequestDAO wd = df.createWorkRequestDAO();
 		wd.decline(workRequestId);
-
-		return "order-declined";
+		List<WorkRequest> lwr = wd.getADRequests(e);
+		req.getSession().setAttribute("data", lwr);
+		return "cdc-ad-view";
 	}
 }
